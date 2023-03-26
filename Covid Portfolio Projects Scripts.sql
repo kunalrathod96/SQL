@@ -1,10 +1,39 @@
+---I did some exploratory data analysis - covid data- https://ourworldindata.org/ for the period Jan 8 2020  to Mar 21 2023
+---I used MY Sql for this Project
+-- First Importing the data in MY Sql by using Import Queries
+
+SET GLOBAL local_infile=1;
+
+-- Creating a table where the data will be imported
+create table covid_death (
+iso_code VARCHAR(255),
+continent VARCHAR(255),
+location VARCHAR(255),
+date DATE,
+population INT(11),
+total_cases INT(11),
+new_cases INT(11),
+new_cases_smoothed INT(11),
+total_deaths INT(11),
+new_deaths INT(11),
+new_deaths_smoothed INT(11),
+icu_patients INT(11),
+hosp_patients INT(11),
+weekly_icu_admissions INT(11),
+weekly_hosp_admissions INT(11)
+);
+-- loading the data into the table
+LOAD DATA LOCAL INFILE "C:/Users/Desktop/Covid_Data/Covid_deaths.csv" INTO TABLE covid_death
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES
+(iso_code,continent,location,date,population,total_cases,new_cases,new_cases_smoothed,total_deaths,new_deaths,new_deaths_smoothed,icu_patients,hosp_patients,weekly_icu_admissions,weekly_hosp_admissions)
+;
+
 SELECT *
 FROM Covid.covid_death
 WHERE continent is not null
-
-
-
-
 
 -- Select data that we are going to be using
 SELECT location, date, total_cases, new_cases, total_deaths, population
@@ -64,6 +93,7 @@ WHERE continent IS NOT NULL
 --GROUP BY date
 ORDER BY 1,2   DESC
 
+
 --Looking at total population vs vaccination
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
 SUM(vac.new_vaccinations) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS Rolling_People_Vaccinated
@@ -74,7 +104,7 @@ AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 ORDER BY 2 DESC
 
---USE Common Table expression
+--USE of Common Table expression
 WITH popvsvac AS
 (
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
@@ -127,3 +157,7 @@ ON dea.location = vac.location
 AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 ORDER BY 2,3;
+
+-- Here's its Visualisation in Tableau
+
+
