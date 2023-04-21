@@ -110,18 +110,6 @@ My PropertyAddress column data type was text hence showing blanks instead of nul
 	(SUBSTRING_INDEX(PropertyAddress, ',', -1)) AS Address2
 	FROM housing_data
 			 
-			  1)  The first argument is the string from which you want to extract the substring (PropertyAddress in this case).
-			    The second argument is the delimiter that separates the substring you want to extract (',' in this case).
-			    The third argument specifies which substring you want to extract. Here we use 1 to extract the first substring before the first occurrence of the delimiter.
-			
-			This query will return the first part of the PropertyAddress column up to the first comma as Address.
-			2)
-			    The first argument is the string from which you want to extract the substring (PropertyAddress in this case).
-			    The second argument is the delimiter that separates the substring you want to extract (',' in this case).
-			    The third argument specifies which substring you want to extract. Here we use -1 to extract the last substring after the last occurrence of the delimiter.
-			
-		
-			This query will return the last part of the PropertyAddress column after the last comma as Address.
 
 
 ALTER TABLE housing.housing_data
